@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/otp.css">
+    <title>OTP</title>
+</head>
+<body>
+    <nav>
+        <ul>
+            <img id="menuBar" src="/images/menu.png" alt="">
+            <li>BLOGIFY</li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/readBlogs">Read Blogs</a></li>
+            <li class="contact" >
+                <a  href="#">Contact <i class="icon fa-solid fa-caret-down"></i></a>
+
+                <ul class="dropdown">
+                    <li><a href="https://www.instagram.com/shivam_89620/">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/in/shivam-devrani-988162262/">LinkedIn</a></li>
+                    <li><a href="https://github.com/ShivamDevrani">Github</a></li>
+                </ul>
+
+            </li>
+            <li><a href="/signup">Login</a></li>
+        </ul>
+    </nav> 
+    <div id="menu">
+        
+        <img id="cross" src="/images/cross.png" alt="">
+        <div id="navContent">
+             <a href="/">Home</a>
+             <a href="/readBlogs">Read Blog</a>
+
+             <% if (locals.name) { %>
+                <a href="/myBlogs">My Blogs</a>
+                        <a href="/myProfile">My Profile</a>
+                        <a id="logout" href="/logout">Logout</a>
+                    </ul>
+                
+                </li>
+                <% } else { %>
+                    <a href="/signup">Login</a>
+                   
+            <% } %>
+             
+        </div>
+     </div>  
+       
+     <div class="main">
+        
+        <img id="design" src="/images/design1.png" alt="">
+        <img id="design1" src="/images/design1.png" alt="">
+
+        <div class="signup">
+            <h1 id="formHeading">Check Your Mail</h1>
+            <form id="form" method="post" action="/user/otp-enter?state=<%= locals.query %>">
+             
+             <div id="verify" class="input-field">
+                <label for="email">Enter Your Email</label>
+               
+             <input type="email" name="email" id="email">
+              </div>
+
+             <div  class="input-field">
+                <label for="otp">Enter Otp</label>
+                <input type="number" name="otp" id="otp">
+             </div>
+                 <button>Submit</button>
+            </form>
+            <p id="otp">Didn't Recieve Otp? <a href="/verify">Click-Here</a></p>
+
+     </div>
+
+     <script>
+
+        let form=document.getElementById('form');
+
+        form.addEventListener('submit',function(){
+            
+            event.preventDefault();
+
+            document.getElementById('email').value=localStorage.getItem('email');
+
+            form.submit();
+        })
+
+        const menuBar = document.getElementById('menuBar');
+        const menu = document.getElementById('menu');
+        
+        menuBar.addEventListener('click', () => {
+            menu.style.display = 'block'; 
+            document.body.style.overflow='hidden';
+        });
+        const cross = document.getElementById('cross');
+            cross.addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.body.style.overflow='auto';
+            });
+
+     </script>
+
+    </body>
+    </html>

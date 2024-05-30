@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blogs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/myBlogs.css">
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <img id="menuBar" src="/images/menu.png" alt="">
+            <li>BLOGIFY</li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/readBlogs">Read Blogs</a></li>
+            <li class="contact" >
+                <a  href="#">Contact <i class="icon fa-solid fa-caret-down"></i></a>
+
+                <ul class="dropdown">
+                    <li><a href="https://www.instagram.com/shivam_89620/">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/in/shivam-devrani-988162262/">LinkedIn</a></li>
+                    <li><a href="https://github.com/ShivamDevrani">Github</a></li>
+                </ul>
+
+            </li>
+            
+            <% if (locals.name) { %>
+                <li><a href="/myBlogs">My Blogs</a></li>
+                <li class="profile"><img id="img" src="<%= locals.profileImageUrl %>" alt="error404">
+                    <ul class="profile-dropdown">
+                        <li id="intro">WELCOME <%= name %></li>
+
+                        <li><a href="/myProfile">My Profile</a></li>
+
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+                
+                </li>
+                <% } else { %>
+                    <li> <a href="/signup">Login</a></li>
+                   
+            <% } %>
+        </ul>
+    </nav>
+    
+    <div id="menu">
+        
+        <img id="cross" src="/images/cross.png" alt="">
+        <div id="navContent">
+             <a href="/">Home</a>
+             <a href="/readBlogs">Read Blog</a>
+
+             <% if (locals.name) { %>
+                <a href="/myBlogs">My Blogs</a>
+                        <a href="/myProfile">My Profile</a>
+                        <a id="logout" href="/logout">Logout</a>
+                    </ul>
+                
+                </li>
+                <% } else { %>
+                    <a href="/signup">Login</a>
+                   
+            <% } %>
+             
+        </div>
+     </div>
+
+    <div class="main">
+    
+        <div class="cards">
+            <% if (locals.blogs) { %>
+                <% blogs.forEach(blog => { %>
+
+                    <div class="card">
+                        <img src="<%= blog.coverImageUrl %>" alt="">
+                        <div class="content">
+                            <div class="details">
+                                <h4>Title:</h4>
+                                <p><%= blog.title.toUpperCase() %></p>
+                            </div>
+                            <div class="details">
+                                <h4>Type:</h4>
+                                <p><%= blog.blogType.toUpperCase() %></p>
+                            </div>
+                            
+                            <div class="details">
+                                <h4>Published By:</h4>
+                                <p><%= blog.createdBy %></p>
+                            </div>
+                            <div class="details">
+                                <h4>Likes:</h4>
+                                <p><%= blog.likes.length %></p>
+                            </div>
+                            <div class="options">
+                                <a href="/blog/<%= blog.id %>">Read Blog </a>
+                                 <a id="delete" href="/user/deleteBlog/<%= blog.id %>"><img src="/images/delete.png" alt="error404"></a>
+                            </div>
+            
+                        </div>
+                    </div>
+
+                <% }) %>
+                  
+            <% } %>
+            <div class="card">
+                  <a id="addAnchor" href="/addBlog">
+                    <img id="addImage" src="/images/addBlog.png" alt="">
+                  </a>
+                    </div>
+    
+                </div>
+            </div>
+
+           
+         </div>
+        </div>
+
+    
+        <footer>
+            <div id="blog" class="footer-column">
+                <h1>BLOGIFY</h1>
+                <p>"Welcome to Blogify, where we share insights, stories. Stay inspired and informed with our latest posts. Thank you for being part of our community!"
+                </p>
+            </div>
+            <div class="footer-column1">
+                <a href="https://github.com/ShivamDevrani"><img class="icon1" src="/images/github.png" alt=""></a>
+                <a href="https://www.instagram.com/shivam_89620/"><img class="icons" src="/images/pngegg (4).png" alt=""></a>
+                <a href="mailto:devranishivam1121@gmail.com"><img class="icons" src="/images/email.png" alt=""></a>
+                <a href="https://www.linkedin.com/in/shivam-devrani-988162262/"><img class="icons" src="/images/linkedin.png" alt=""></a>
+            </div>
+            <p id="reserved">@All rights reserved</p>
+            
+        </footer>
+
+    <script>
+         
+        let logout=document.getElementById('logout');
+
+        logout.addEventListener('click',(event)=>{
+           event.preventDefault();
+
+           localStorage.removeItem('email');
+           
+           window.location.href = logout.href;
+   
+        });
+
+        const menuBar = document.getElementById('menuBar');
+        const menu = document.getElementById('menu');
+        
+        menuBar.addEventListener('click', () => {
+            menu.style.display = 'block'; 
+            document.body.style.overflow='hidden';
+        });
+        const cross = document.getElementById('cross');
+            cross.addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.body.style.overflow='auto';
+            });
+   </script>
+</body>  
+
+</html>

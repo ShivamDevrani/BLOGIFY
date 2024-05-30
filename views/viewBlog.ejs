@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/viewBlog.css">
+</head>
+
+<body>
+
+    <nav>
+        <ul>
+            <img id="menuBar" src="/images/menu.png" alt="">
+            <li>BLOGIFY</li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/readBlogs">Read Blogs</a></li>
+            <li class="contact">
+                <a href="#">Contact <i class="icon fa-solid fa-caret-down"></i></a>
+
+                <ul class="dropdown">
+                    <li><a href="https://www.instagram.com/shivam_89620/">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/in/shivam-devrani-988162262/">LinkedIn</a></li>
+                    <li><a href="https://github.com/ShivamDevrani">Github</a></li>
+                </ul>
+
+            </li>
+
+            <% if (locals.name) { %>
+                <li><a href="/myBlogs">My Blogs</a></li>
+                <li class="profile"><img id="img" src="<%= locals.profileImageUrl %>" alt="">
+                    <ul class="profile-dropdown">
+                        <li id="intro">WELCOME <%= name %>
+                        </li>
+                        <li><a href="/myProfile">My Profile</a></li>
+                        <li><a href="/logout">Logout</a></li>
+                    </ul>
+
+                </li>
+                <% } else { %>
+                    <li> <a href="/signup">Login</a></li>
+
+                    <% } %>
+        </ul>
+    </nav>
+
+    <div id="menu">
+        <img id="cross" src="/images/cross.png" alt="">
+        <div id="navContent">
+             <a href="/">Home</a>
+             <a href="/readBlogs">Read Blog</a>
+
+             <% if (locals.name) { %>
+                <a href="/myBlogs">My Blogs</a>
+                        <a href="/myProfile">My Profile</a>
+                        <a id="logout" href="/logout">Logout</a>
+                    </ul>
+                
+                </li>
+                <% } else { %>
+                    <a href="/signup">Login</a>
+                   
+            <% } %>
+             
+        </div>
+     </div>
+    
+    <div class="main">
+        <% if (locals.blog) { %>
+            <h1>
+                <%= blog.title.toUpperCase() %>
+            </h1>
+            <div class="content">
+                <p>
+                    <%= blog.body %>
+                </p>
+                ~By <%= blog.createdBy %>
+            </div>
+            <% if (isLiked==true) { %>
+                <div class="liked">
+                    <a href="/user/removeLike/<%= blog._id %>"">
+                        <img src=" /images/like.png" alt="">
+                    </a>
+                    <p>
+                        <%= blog.likes.length %>
+                                People Liked This Post
+                    </p>
+                </div>
+                <% } else { %>
+                    <div class="like">
+                        <a href="/user/like/<%= blog._id %>"">
+                            <img src=" /images/like.png" alt="">
+                        </a>
+                        <p>
+                            <%= blog.likes.length %>
+                                    People Liked This Post
+                        </p>
+                    </div>
+                    <% } %>
+
+
+                        <h2>Comments:</h2>
+                        <div class="comments">
+
+                            <% blog.comments.forEach(comment=> { %>
+
+                                <% if (comment.commenterId.toString()===userId.toString()) { %>
+                                    <div id="userComment" class="comment">
+                                        <a href="/user/delete/<%= blog.id %>/<%= comment.id %>">Delete</a>
+                                        <div class="intro">
+                                            <img src="<%= locals.profileImageUrl %>" alt="">
+                                            <h3>
+                                                <%= comment.commentedBy%>
+                                            </h3>
+                                        </div>
+
+                                        <p>
+                                            <%= comment.commentBody %>
+                                        </p>
+                                    </div>
+
+                                    <% } else { %>
+                                        <div class="comment">
+                                            <div class="intro">
+                                                <img src="<%=comment.commenterProfile %>" alt="">
+                                                <h3>
+                                                    <%= comment.commentedBy%>
+                                            
+                                                </h3>
+                                            </div>
+
+                                            <p>
+                                                <%= comment.commentBody %>
+                                            </p>
+                                        </div>
+
+                                        <% } %>
+                                            <% }) %>
+
+
+                        </div>
+
+                        <form method="post" action="/user/comment/<%= blog._id %>">
+                            <label for="comment">Add Comment</label>
+                            <textarea name="commentBody" id="comment" placeholder="Comment Here....."></textarea>
+                            <button>Submit</button>
+
+    </div>
+    <% } %>
+
+        </div>
+
+        <footer>
+            <div id="blog" class="footer-column">
+                <h1>BLOGIFY</h1>
+                <p>"Welcome to Blogify, where we share insights, stories. Stay inspired and informed with our latest posts. Thank you for being part of our community!"
+                </p>
+            </div>
+            <div class="footer-column1">
+                <a href="https://github.com/ShivamDevrani"><img class="icon1" src="/images/github.png" alt=""></a>
+                <a href="https://www.instagram.com/shivam_89620/"><img class="icons" src="/images/pngegg (4).png" alt=""></a>
+                <a href="mailto:devranishivam1121@gmail.com"><img class="icons" src="/images/email.png" alt=""></a>
+                <a href="https://www.linkedin.com/in/shivam-devrani-988162262/"><img class="icons" src="/images/linkedin.png" alt=""></a>
+            </div>
+            <p id="reserved">@All rights reserved</p>
+            
+        </footer>
+         
+        <script>
+         
+            let logout=document.getElementById('logout');
+        
+            logout.addEventListener('click',(event)=>{
+               event.preventDefault();
+        
+               localStorage.removeItem('email');
+               
+               window.location.href = logout.href;
+        
+            })
+        
+            menuBar.addEventListener('click', () => {
+            menu.style.display = 'block'; 
+            document.body.style.overflow='hidden';
+        });
+        const cross = document.getElementById('cross');
+            cross.addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.body.style.overflow='auto';
+            });
+
+        </script>
+
+</body>
+
+</html>

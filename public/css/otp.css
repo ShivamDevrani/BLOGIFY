@@ -1,0 +1,371 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html,body{
+    height: 100%;
+    width: 100%;
+}
+
+nav{
+    width: 100%;
+    /* background-color: rgb(27, 76, 203); */
+    background-color: black
+}
+
+ul {
+   
+    height: 4rem;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style: none;
+    position:relative;
+}
+
+
+#menuBar{
+    filter: invert(100%);
+    width: 2rem;
+    display: none;
+ }
+ #menu{
+     display: none;
+ }
+ul li{
+    color: white;
+    font-size: 1.4rem;
+}
+ul li a{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: white;
+    transition: 0.2s;
+}
+
+ul li a::after{
+    content: "";
+    width: 0;
+    height: 0.1rem;
+    display: block;
+    transition: 0.4s;
+}
+
+
+ul li a:hover{
+    color:rgb(14, 84, 236);
+    /* color: #9B3922; */
+}
+ul li a:hover::after{
+    background-color:rgb(14, 84, 236);
+    /* background-color: #9B3922; */
+    width:100%;
+}
+
+ul li{
+    position: relative;
+}
+ul li ul.dropdown li{
+   color: black;
+}
+
+ul li ul.dropdown{
+   position: absolute;
+   z-index: 333;
+   /* background-color: rgb(27, 76, 203); */
+   background-color: rgba(19, 18, 18, 0.968);
+   display: none;
+}
+
+ul li ul.dropdown li{
+    color: white;
+    
+}
+
+
+
+
+ul li.contact:hover ul.dropdown{
+   display: block;
+   width: 6rem;
+   height: 9rem;    
+   display: flex;
+   flex-direction: column;
+}
+
+ul li.contact:hover  a i {
+    transform: rotate(180deg);
+    transition: transform 0.3s;
+}
+
+.main{
+    height: 91.8%;
+    width: 100%;
+    background-color: #F57D1F;
+   /* background-color: #BE3144;   */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+#design
+{
+    width: 30rem;
+    position: absolute;
+    left:7%;
+    bottom: -20%;
+    transform: rotate(-90deg);
+}
+#design1{
+    width: 30rem;
+    position: absolute;
+    right:7%;
+    top: -21%;
+    transform: rotate(90deg);
+}
+.signup{
+    height:55% ;
+    min-width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    position: relative;
+    z-index: 3;
+    padding:10px;
+
+    background: rgba(180, 4, 86, 0.5);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    position: relative;
+}
+
+
+.signup h1{
+    font-size: 2.5rem;
+    color: white;
+    text-align: center;
+    
+}
+
+.signup h1::after{
+    content: "";
+    border: 1px solid wheat;
+    display: block;
+   
+}
+.signup form{
+   
+    display: flex;
+    flex-direction: column;
+    justify-content:space-evenly ;
+    align-items: center;
+    height: 75%;
+    width: 80%;
+    padding: 3px;
+    
+    /* border: 2px solid black; */
+}
+
+
+form div.input-field{
+   /* border:2px solid white; */
+   display:flex;
+   flex-direction: column;
+   /* align-items: center; */
+   justify-content: space-evenly;
+   
+   width: 100%;
+   height: 40%;
+   padding: 2px;
+   
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+div.input-field label{
+    font-size: 1.4rem;
+    text-align: center;
+     color: white;
+    font-weight: 500;
+}
+
+
+
+div.input-field input{
+    height: 1.4rem;
+    outline: none;  
+    background-color: transparent;
+    border:none;   
+    border-bottom: 1px solid white;
+    font-size: 1.2rem;
+    color: wheat;
+    text-align: center;
+
+}
+
+#verify{
+    display: none;
+}
+form button{
+    color:black;
+    background-color:rgba(245, 245, 245, 0.952);
+    
+    border: none;
+    font-size: 1.1rem;
+    width: 60%;
+    height: 8%;
+    font-weight: 700;
+    transition: 0.2s;
+    border-radius: 4px;
+
+}
+form button:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    color: white;
+    background-color: rgb(12, 12, 12);
+
+}
+
+#otp{
+    color: white;
+}
+#otp a{
+    color:black;
+    font-size: 0.9rem;
+    font-weight: 900;
+}
+#otp a:hover{
+    color:rgb(190, 183, 183);
+}
+
+a{
+    text-decoration: none;
+}
+
+
+@media only screen and (max-width:830px) {
+    
+    ul {
+        width: 80%;
+    }
+    ul li{
+        font-size: 0.9rem;
+    }
+    ul li a{
+        font-size: 0.8rem;
+      
+    }
+    
+    #img{
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius:1rem;
+    }
+    
+     ul li ul.profile-dropdown{
+        transform: translateX(-30px);
+        
+     }
+     
+     ul li ul.profile-dropdown li a{
+        font-size: 0.8rem;
+     }
+    
+    ul li.profile:hover ul.profile-dropdown{
+        width: 6rem;
+        height: 6rem;    
+            
+     }
+     #intro{
+      
+        font-size:0.6rem ;
+     }
+    
+
+    
+}
+
+
+@media only screen and (max-width:480px) {
+    nav{
+        position: relative;
+    }
+    ul{
+        
+        display: flex;
+        justify-content: center;
+        /* border: 2px solid white; */
+        width: 20%;
+    }
+    ul li{
+        display: none;
+    }
+    #menuBar {
+       display: block;
+    }
+    #menu{
+        /* display:block; */
+        position: absolute;
+        padding: 5px;
+        left: 0;
+        top:-8%;
+        width: 97%;
+        left: 2%;
+        height: 98%;
+        position: absolute;
+        z-index:55;        
+        
+    
+        background: rgba(180, 4, 4, 0.884);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    position: relative;
+    border: 9px soild white;
+    
+    }
+    #cross{
+        width: 15%;
+        position:absolute;
+        right: 3%;
+        top: 5%;
+        
+    }
+     
+    #navContent{
+        margin-top: 5%;
+        width: 100%;
+        height: 80%;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        
+        gap: 2rem;
+    
+    }
+    
+    #navContent a{
+        font-size: 2rem;
+        color:white;
+        font-weight: 500;
+    }
+   .main{
+    margin-top: 0px;
+   }
+   
+    
+}
