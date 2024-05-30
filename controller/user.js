@@ -6,7 +6,7 @@ const OTP=require('../model/otpSchema');
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator');
 
-
+require('dotenv').config();
 //creating transporter object
 
 
@@ -28,7 +28,7 @@ const transporter=nodemailer.createTransport({
     service:'gmail',
     auth:{
         user:'shivamdevrani093@gmail.com',
-        pass:'auhm mycz pooc kbkf'
+        pass:process.env.APP
     }
 })
 
