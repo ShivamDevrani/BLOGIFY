@@ -35,7 +35,7 @@ ul {
      display: none;
  }
 ul li{
-    color: white;
+    color: red;
     font-size: 1.4rem;
 }
 ul li a{
