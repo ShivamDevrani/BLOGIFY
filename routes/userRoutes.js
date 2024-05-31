@@ -112,7 +112,23 @@ router.post('/addBlog',jwtAuthMiddleware,upload.single('coverImage'),async (req,
 router.get('/deleteBlog/:id',jwtAuthMiddleware,async (req,res)=>{
      try{
           const id=req.params.id;
-          const blog=await BLOG.findByIdAndDelete(id);
+
+
+          const blog=await BLOG.findById(id);
+           
+               const oldFilePath = path.join(__dirname, '..', 'public', blog.coverImageUrl);
+
+               console.log('Old file path to be removed:', oldFilePath);
+               
+               fs.unlink(oldFilePath, (err) => {
+                   if (err) {
+                       console.log('Error removing old file:', err);
+                   } else {
+                       console.log('Old file removed:', oldFilePath);
+                   }
+               });
+          
+          await blog.deleteOne();
           
           console.log('blog deleted succesfully');
           res.redirect('/myBlogs?deleted');
