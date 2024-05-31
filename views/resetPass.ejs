@@ -74,11 +74,13 @@
      </div>
 
      <script>
-
+         const cross = document.getElementById('cross');
         let form=document.getElementById('form');
+        const menuBar = document.getElementById('menuBar');
+        const menu = document.getElementById('menu');
 
         form.addEventListener('submit',function(){
-            
+            if (event.target.id === 'form')
             event.preventDefault();
 
             document.getElementById('email').value=localStorage.getItem('email');
@@ -86,14 +88,13 @@
             form.submit();
         })
 
-        const menuBar = document.getElementById('menuBar');
-        const menu = document.getElementById('menu');
+        
         
         menuBar.addEventListener('click', () => {
             menu.style.display = 'block'; 
             document.body.style.overflow='hidden';
         });
-        const cross = document.getElementById('cross');
+       
             cross.addEventListener('click', () => {
                 menu.style.display = 'none';
                 document.body.style.overflow='auto';

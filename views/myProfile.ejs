@@ -121,86 +121,35 @@
 
      <script>
 
-        let signupBtn=document.getElementById('signup');
+        const menuBar = document.getElementById('menuBar');
+        const menu = document.getElementById('menu');
+        const cross = document.getElementById('cross');
+        let logout = document.getElementById('logout');
 
-        let loginBtn=document.getElementById('login');
-
-        let heading=document.getElementById('formHeading');
-
-        let nameField=document.getElementById('name');
-
-        let passwordField=document.getElementById('password');
-
-        let form=document.getElementById('form');
-
-        let forgotPassword=document.getElementById('forgotPassword');
-
-        let email_field=document.getElementById('email');
-
-        loginBtn.addEventListener('click',()=>{
-            heading.innerHTML='LOGIN';
-            loginBtn.style.backgroundColor='rgb(12, 108, 234)';
-            loginBtn.style.color='white';
-            signupBtn.style.backgroundColor='white';
-            signupBtn.style.color='black';
-            nameField.style.display='none';
-            form.setAttribute('action','/user/login');
-            form.setAttribute('method','post');
-            forgotPassword.style.display='block';
-
-        });
-        signupBtn.addEventListener('click',()=>{
-             heading.innerHTML='SIGN UP';
-            loginBtn.style.backgroundColor='white';
-            loginBtn.style.color='black';
-            signupBtn.style.backgroundColor='rgb(12, 108, 234)';
-            signupBtn.style.color='white';
-            nameField.style.display='flex'
-
-            form.setAttribute('action','/user/signup');
-            forgotPassword.style.display='none';
-            });
-
-        form.addEventListener('submit',function(){
-            event.preventDefault();
-
-           localStorage.setItem('email',email_field.value);
-
-           form.action = form.getAttribute('action');
-
-           form.submit();
-        })
 
         //logout
-        let logout=document.getElementById('logout');
-
-logout.addEventListener('click',(event)=>{
-   event.preventDefault();
-
-   localStorage.removeItem('email');
-   
-   window.location.href = logout.href;
-
-})
-
-const menuBar = document.getElementById('menuBar');
-        const menu = document.getElementById('menu');
+    
+        document.addEventListener('click', function(event) {
+        if (event.target.id === 'logout') {
+        event.preventDefault();
+        localStorage.removeItem('email');
+        window.location.href = event.target.href;
+    }
+});
         
         menuBar.addEventListener('click', () => {
             menu.style.display = 'block'; 
             document.body.style.overflow='hidden';
         });
-        const cross = document.getElementById('cross');
+        
             cross.addEventListener('click', () => {
                 menu.style.display = 'none';
                 document.body.style.overflow='auto';
             });
 
-
      </script>
 
 
-       
 
 </body>
 </html>

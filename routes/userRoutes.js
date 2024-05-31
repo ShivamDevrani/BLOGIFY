@@ -8,6 +8,8 @@ const BLOG=require('../model/blogSchema');
 const fs=require('fs');
 const path = require('path');
 
+const sharp=require('sharp');
+
 const {generateToken,jwtAuthMiddleware}=require('../middleware/jwtAuthMiddleware');
 
 const USER=require('../model/userSchema');
@@ -58,11 +60,40 @@ router.post('/resetPassword',jwtAuthMiddleware,async (req,res)=>{
 router.post('/addBlog',jwtAuthMiddleware,upload.single('coverImage'),async (req,res)=>{
     try{
          const {title,blogType,body}=req.body;
+         
+         const originalFilePath = path.join(__dirname, '..', 'public', 'uploads','heavy', req.file.filename);
+     const newFilePath = path.join(__dirname, '..', 'public', 'uploads', `${req.file.filename}.webp`);
+
+     console.log('Original file path:', originalFilePath);
+     console.log('New file path:', newFilePath);
+         
+         try {
+          await sharp(originalFilePath)
+          .webp({ quality: 60})
+          .rotate()  // Auto-rotate based on EXIF data
+          .toFile(newFilePath);
+           console.log('Image converted to WebP successfully');
+     } catch (sharpError) {
+         console.error('Sharp conversion error:', sharpError);
+         return res.redirect('/myProfile?error=Unsupported image format');
+     }
+
+     sharp.cache(false); // used to unlock the file since the file is locked or in use 
+
+       fs.unlink(originalFilePath, (err) => {
+              if (err) {
+                  console.log('Error removing old file:', err);
+              } else {
+                  console.log('Old file removed:', originalFilePath);
+              }
+          });
+
+
          const blog=new BLOG({
             title,
             blogType,
             body,
-            coverImageUrl:`/uploads/${req.file.filename}`,
+            coverImageUrl: `/uploads/${req.file.filename}.webp`,
             createdBy:req.user.name,
             publisherId:req.user.id,
             publisherImageUrl:req.user.profileImageUrl,
@@ -197,22 +228,56 @@ router.get('/removeLike/:id',jwtAuthMiddleware,async (req,res)=>{
 
 router.post('/changeImage',jwtAuthMiddleware,upload.single('profileImage'),async (req,res)=>{
     try{
-
-        const user=await USER.findById(req.user.id);
-
-       
-       if(user.profileImageUrl!=="/uploads/default.png")
-          {
-               const filepath=`public/${user.profileImageUrl}`;
-
-               fs.unlink(filepath,(err)=>{
-                  if(err)
-                       console.log(err);
-               })
-          }
         
-        user.profileImageUrl=`/uploads/${req.file.filename}`;
-        req.user.profileImageUrl=user.profileImageUrl;
+     const user = await USER.findById(req.user.id);
+
+     if (user.profileImageUrl !== "/uploads/default.png") {
+         const oldFilePath = path.join(__dirname, '..', 'public', user.profileImageUrl);
+         console.log('Old file path to be removed:', oldFilePath);
+
+         fs.unlink(oldFilePath, (err) => {
+             if (err) {
+                 console.log('Error removing old file:', err);
+             } else {
+                 console.log('Old file removed:', oldFilePath);
+             }
+         });
+     }
+
+     const originalFilePath = path.join(__dirname, '..', 'public', 'uploads','heavy', req.file.filename);
+     const newFilePath = path.join(__dirname, '..', 'public', 'uploads', `${req.file.filename}.webp`);
+
+     console.log('Original file path:', originalFilePath);
+     console.log('New file path:', newFilePath);
+
+     
+
+     // Convert the image to WebP format
+     try {
+          await sharp(originalFilePath)
+          .webp({ quality: 60 })
+          .rotate()  // Auto-rotate based on EXIF data
+          .toFile(newFilePath);
+           console.log('Image converted to WebP successfully');
+     } catch (sharpError) {
+         console.error('Sharp conversion error:', sharpError);
+         return res.redirect('/myProfile?error=Unsupported image format');
+     }
+
+     sharp.cache(false); // used to unlock the file since the file is locked or in use 
+
+       fs.unlink(originalFilePath, (err) => {
+              if (err) {
+                  console.log('Error removing old file:', err);
+              } else {
+                  console.log('Old file removed:', originalFilePath);
+              }
+          });
+
+  
+
+     user.profileImageUrl = `/uploads/${req.file.filename}.webp`;
+     req.user.profileImageUrl = user.profileImageUrl;
 
         const blogs = await BLOG.find({});
 
@@ -232,14 +297,18 @@ router.post('/changeImage',jwtAuthMiddleware,upload.single('profileImage'),async
             }
           })
         );
+       
         //deleting previous token
         const payload=req.user;
         const token= generateToken(payload);
+
+        
 
         res.clearCookie('token');
         res.cookie('token',token);
         
         await user.save();
+        console.log('changed sucessfully');
         res.redirect('/myProfile?Changed successfully');
 
     }

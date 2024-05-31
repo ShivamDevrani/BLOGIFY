@@ -5,7 +5,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        const uploadPath = path.join(__dirname, '..', 'public', 'uploads');
+        const uploadPath = path.join(__dirname, '..', 'public', 'uploads','heavy');
       return cb(null,uploadPath);
     },
     filename: function (req, file, cb) {
@@ -13,6 +13,10 @@ const storage = multer.diskStorage({
     }
   })
   
-  const upload = multer({ storage });
+  const upload = multer({ storage,
+    limits: {
+      fileSize: 6* 1024 * 1024 // 6 MB in bytes
+  }
+   });
 
   module.exports=upload;

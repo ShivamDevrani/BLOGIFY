@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ADD BLOG</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="/css/addBlog.css">
@@ -11,6 +12,7 @@
 
     <nav>
         <ul>
+            <img id="menuBar" src="/images/menu.png" alt="">
             <li>BLOGIFY</li>
             <li><a href="/">Home</a></li>
             <li><a href="/readBlogs">Read Blogs</a></li>
@@ -27,7 +29,7 @@
             
             <% if (locals.name) { %>
                 <li><a href="/myBlogs">My Blogs</a></li>
-                <li class="profile"><img id="img" src="<%= locals.profileImageUrl %>" alt="error404">
+                <li class="profile"><img id="img" loading="lazy" src="<%= locals.profileImageUrl %>" alt="error404">
                     <ul class="profile-dropdown">
                         <li id="intro">WELCOME <%= name %></li>
                         <li><a href="/myProfile">My Profile</a></li>
@@ -41,6 +43,26 @@
             <% } %>
         </ul>
     </nav>
+    <div id="menu">
+        <img id="cross"  src="/images/cross.png" alt="">
+        <div id="navContent">
+             <a href="/">Home</a>
+             <a href="/readBlogs">Read Blog</a>
+
+             <% if (locals.name) { %>
+                <a href="/myBlogs">My Blogs</a>
+                        <a href="/myProfile">My Profile</a>
+                        <a id="logout" href="/logout">Logout</a>
+                    </ul>
+                
+                </li>
+                <% } else { %>
+                    <a href="/signup">Login</a>
+                   
+            <% } %>
+             
+        </div>
+     </div>
     <div class="main">
 
        <form method="post" action="/user/addBlog" enctype="multipart/form-data">
@@ -49,7 +71,7 @@
             <label for="title">Title:</label>
             <input required type="text" id="title" name="title">
          </div>
-         <div class="input">
+         <div id="special" class="input">
             <p>Select Blog Type:</p>
 
             <div class="select">
@@ -123,16 +145,32 @@
 
     <script>
          
-        let logout=document.getElementById('logout');
+         const menuBar = document.getElementById('menuBar');
+        const menu = document.getElementById('menu');
+        const cross = document.getElementById('cross');
+        let logout = document.getElementById('logout');
 
-        logout.addEventListener('click',(event)=>{
-           event.preventDefault();
 
-           localStorage.removeItem('email');
-           
-           window.location.href = logout.href;
-   
-        })
+        //logout
+    
+        document.addEventListener('click', function(event) {
+        if (event.target.id === 'logout') {
+        event.preventDefault();
+        localStorage.removeItem('email');
+        window.location.href = event.target.href;
+    }
+});
+        
+        menuBar.addEventListener('click', () => {
+            menu.style.display = 'block'; 
+            document.body.style.overflow='hidden';
+        });
+        
+            cross.addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.body.style.overflow='auto';
+            });
+
    </script>
 
     

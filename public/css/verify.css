@@ -25,6 +25,15 @@ ul {
     position:relative;
 }
 
+#menuBar{
+    filter: invert(100%);
+    width: 2rem;
+    display: none;
+ }
+ #menu{
+     display: none;
+ }
+
 
 ul li{
     color: red;
@@ -232,4 +241,122 @@ form button:hover{
 
 a{
     text-decoration: none;
+}
+
+
+
+@media only screen and (max-width:830px) {
+    
+    ul {
+        width: 80%;
+    }
+    ul li{
+        font-size: 0.9rem;
+    }
+    ul li a{
+        font-size: 0.8rem;
+      
+    }
+    
+    #img{
+        width: 2.2rem;
+        height: 2.2rem;
+        border-radius:1rem;
+    }
+    
+     ul li ul.profile-dropdown{
+        transform: translateX(-30px);
+        
+     }
+     
+     ul li ul.profile-dropdown li a{
+        font-size: 0.8rem;
+     }
+    
+    ul li.profile:hover ul.profile-dropdown{
+        width: 6rem;
+        height: 6rem;    
+            
+     }
+     #intro{
+      
+        font-size:0.6rem ;
+     }
+    
+
+    
+}
+
+
+@media only screen and (max-width:480px) {
+    nav{
+        position: relative;
+    }
+    ul{
+        
+        display: flex;
+        justify-content: center;
+        /* border: 2px solid white; */
+        width: 20%;
+    }
+    ul li{
+        display: none;
+    }
+    #menuBar {
+       display: block;
+    }
+    #menu{
+        /* display:block; */
+        position: absolute;
+        padding: 5px;
+        left: 0;
+        top:-8%;
+        width: 97%;
+        left: 2%;
+        height: 98%;
+        position: absolute;
+        z-index:55;        
+        
+    
+        background: rgba(180, 4, 4, 0.884);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    backdrop-filter: blur( 4px );
+    -webkit-backdrop-filter: blur( 4px );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+    position: relative;
+    border: 9px soild white;
+    
+    }
+    #cross{
+        width: 15%;
+        position:absolute;
+        right: 3%;
+        top: 5%;
+        
+    }
+     
+    #navContent{
+        margin-top: 5%;
+        width: 100%;
+        height: 80%;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        
+        gap: 2rem;
+    
+    }
+    
+    #navContent a{
+        font-size: 2rem;
+        color:white;
+        font-weight: 500;
+    }
+   .main{
+    margin-top: 0px;
+   }
+   
+    
 }

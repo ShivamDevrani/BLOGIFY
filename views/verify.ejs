@@ -10,6 +10,7 @@
 <body>
     <nav>
         <ul>
+            <img id="menuBar" src="/images/menu.png" alt="">
             <li>BLOGIFY</li>
             <li><a href="/">Home</a></li>
             <li><a href="/readBlogs">Read Blogs</a></li>
@@ -26,6 +27,28 @@
             <li><a href="/signup">Login</a></li>
         </ul>
     </nav> 
+
+    <div id="menu">
+        
+        <img id="cross" src="/images/cross.png" alt="">
+        <div id="navContent">
+             <a href="/">Home</a>
+             <a href="/readBlogs">Read Blog</a>
+
+             <% if (locals.name) { %>
+                <a href="/myBlogs">My Blogs</a>
+                        <a href="/myProfile">My Profile</a>
+                        <a id="logout" href="/logout">Logout</a>
+                    </ul>
+                
+                </li>
+                <% } else { %>
+                    <a href="/signup">Login</a>
+                   
+            <% } %>
+             
+        </div>
+     </div>  
        
      <div class="main">
         <img id="design" src="/images/design1.png" alt="">
@@ -63,6 +86,20 @@
 
            form.submit();
         })
+
+        const menuBar = document.getElementById('menuBar');
+        const menu = document.getElementById('menu');
+        
+        menuBar.addEventListener('click', () => {
+            menu.style.display = 'block'; 
+            document.body.style.overflow='hidden';
+        });
+        const cross = document.getElementById('cross');
+            cross.addEventListener('click', () => {
+                menu.style.display = 'none';
+                document.body.style.overflow='auto';
+            });
+
 
      </script>
 

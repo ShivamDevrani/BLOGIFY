@@ -104,7 +104,7 @@ const loginHandler=async (req,res)=>{
     const {email,password}=req.body;
     try{
        const user=await USER.findOne({email});
-       if(!user) return res.render('/signup?user not found');
+       if(!user) return res.redirect('/signup?user not found');
        
        if(user.isVerified==='false')
         res.redirect('/verfiy?state=newbie');

@@ -29,7 +29,7 @@
             
             <% if (locals.name) { %>
                 <li><a href="/myBlogs">My Blogs</a></li>
-                <li class="profile"><img id="img" src="<%=locals.profileImageUrl%>" alt="profile">
+                <li class="profile"><img id="img" loading="lazy" src="<%=locals.profileImageUrl%>" alt="profile">
                     <ul class="profile-dropdown">
                         <li id="intro">WELCOME <%= name %></li>
                         <li><a href="/myProfile">My Profile</a></li>
@@ -44,7 +44,7 @@
         </ul>
     </nav>
     <div id="menu">
-        <img id="cross" src="/images/cross.png" alt="">
+        <img id="cross"  src="/images/cross.png" alt="">
         <div id="navContent">
              <a href="/">Home</a>
              <a href="/readBlogs">Read Blog</a>
@@ -68,15 +68,15 @@
     
     <div class="main">
         <div class="section1">
-            <img id="bg1" src="/images/pen1.png" alt="">
-            <img id="bg2" src="/images/pen2.png" alt="">
-            <img id="bg3" src="/images/books.png" alt="">
+            <img id="bg1" loading="lazy" src="/images/pen1.webp" alt="">
+            <img id="bg2" loading="lazy" src="/images/pen2.webp" alt="">
+            <img id="bg3" loading="lazy" src="/images/books.webp" alt="">
             <h1>Publish your passions, your way</h1>
             <h3>Create a unique and beautiful blog easily.</h3>
             <a href="/addBlog">Create Your Blog</a>
              
             <div class="block">
-                 <img src="/images/—Pngtree—business blogging commercial blog posting_14960729.png" alt="">
+                 <img loading="lazy" src="/images/—Pngtree—business blogging commercial blog posting_14960729.webp" alt="">
             </div>
         </div>
        
@@ -89,13 +89,13 @@
            
           </div>
          
-           <img src="/images/Tree.png" alt="error404">
+           <img loading="lazy" src="/images/Tree.webp" alt="error404">
         
         </div>
         
         <div class="section3">
-            <img id="img1" src="/images/penss.png" alt="">
-            <img id="img2" src="/images/pencil.png" alt="">
+            <img id="img1" loading="lazy" src="/images/penss.webp" alt="">
+            <img id="img2" loading="lazy" src="/images/pencil.webp" alt="">
            
             <div class="para2">
                 <h1>Hang onto your memories</h1>
@@ -124,18 +124,20 @@
     </footer>
 
     <script>
-        let logout = document.getElementById('logout');
-    
-        logout.addEventListener('click', (event) => {
-            event.preventDefault();
-    
-            localStorage.removeItem('email');
-            
-            window.location.href = logout.href;
-        });
-    
+
+        //error due to ejs when we attach dynamically and using js tries to acess it we  should check like this 
+        //Dynamic Content: If the logout anchor tag is dynamically added to the DOM, ensure that the event listener is attached after the element is added. You can use event delegation or attach the event listener inside the function responsible for adding the element.
         const menuBar = document.getElementById('menuBar');
         const menu = document.getElementById('menu');
+        let logout = document.getElementById('logout');
+    
+        document.addEventListener('click', function(event) {
+        if (event.target.id === 'logout') {
+        event.preventDefault();
+        localStorage.removeItem('email');
+        window.location.href = event.target.href;
+    }
+});
         
         menuBar.addEventListener('click', () => {
             menu.style.display = 'block'; 
