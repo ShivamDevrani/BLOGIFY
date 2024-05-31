@@ -61,7 +61,7 @@ router.post('/addBlog',jwtAuthMiddleware,upload.single('coverImage'),async (req,
     try{
          const {title,blogType,body}=req.body;
          
-         const originalFilePath = path.join(__dirname, '..', 'public', 'uploads','heavy', req.file.filename);
+         const originalFilePath = path.join(__dirname, '..', 'public', 'uploads', req.file.filename);
      const newFilePath = path.join(__dirname, '..', 'public', 'uploads', `${req.file.filename}.webp`);
 
      console.log('Original file path:', originalFilePath);
@@ -244,7 +244,7 @@ router.post('/changeImage',jwtAuthMiddleware,upload.single('profileImage'),async
          });
      }
 
-     const originalFilePath = path.join(__dirname, '..', 'public', 'uploads','heavy', req.file.filename);
+     const originalFilePath = path.join(__dirname, '..', 'public', 'uploads', req.file.filename);
      const newFilePath = path.join(__dirname, '..', 'public', 'uploads', `${req.file.filename}.webp`);
 
      console.log('Original file path:', originalFilePath);
