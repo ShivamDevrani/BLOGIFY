@@ -135,6 +135,7 @@ router.post('/comment/:id',jwtAuthMiddleware,async (req,res)=>{
               commentBody,
               commentedBy:req.user.name,
               commenterId:userId,
+              commenterProfile:req.user.profileImageUrl
           })
           await blog.save();
           console.log('comment added successfully');
