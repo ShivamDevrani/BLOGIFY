@@ -274,29 +274,34 @@ router.post('/changeImage',jwtAuthMiddleware,upload.single('profileImage'),async
               }
           });
 
-  
-
      user.profileImageUrl = `/uploads/${req.file.filename}.webp`;
      req.user.profileImageUrl = user.profileImageUrl;
 
-        const blogs = await BLOG.find({});
+     const blogs = await BLOG.find({});
 
-        await Promise.all(
-          blogs.map(async (blog) => {
-            let updated = false;
-        
-            blog.comments.forEach(comment => {
-              if (comment.commenterId.toString() === user.id.toString()) {
-                comment.commenterProfile = user.profileImageUrl;
-                updated = true;
-              }
-            });
-        
-            if (updated) {
-              await blog.save();
-            }
-          })
-        );
+     console.log(`Found ${blogs.length} blogs to update.`);
+ 
+     await Promise.all(
+       blogs.map(async (blog) => {
+         let updated = false;
+ 
+         blog.comments.forEach(comment => {
+           if (comment.commenterId.toString() === user.id.toString()) {
+             console.log(`Updating comment for blog ${blog._id} with new profile image URL.`);
+             comment.commenterProfile = user.profileImageUrl;
+             updated = true;
+           }
+         });
+ 
+         if (updated) {
+           console.log(`Saving blog ${blog._id} after updating comments.`);
+           await blog.save();
+         } else {
+           console.log(`No updates needed for blog ${blog._id}.`);
+         }
+       })
+     );
+ 
        
         //deleting previous token
         const payload=req.user;
