@@ -1,10 +1,5 @@
 # 📝 Blogify — Content Sharing Platform  
 
-![Status](https://img.shields.io/badge/Status-Live-brightgreen?style=for-the-badge)
-![Tech Stack](https://img.shields.io/badge/Tech%20Stack-Node.js%20%7C%20Express%20%7C%20MongoDB%20%7C%20EJS-blue?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
-[![Live Demo](https://img.shields.io/badge/Live-Demo-orange?style=for-the-badge)](https://digital.adcliq360.com/)
-
 A full-stack **content-sharing platform** built with **EJS, Node.js, Express.js, MongoDB, Multer, and Cloudinary**.  
 It allows users to **create, publish, edit, and comment** on blogs while ensuring **secure access**, **optimized images**, and **fast performance**.
 
