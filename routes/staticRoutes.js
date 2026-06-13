@@ -3,6 +3,7 @@ const express=require('express');
 const router=express.Router();
 
 const {jwtAuthMiddleware,jwtParser,jwtTokenChecker}=require('../middleware/jwtAuthMiddleware');
+const RESET_TOKEN=require('../model/resetTokenSchema');
 
 const BLOG=require('../model/blogSchema');
 const USER=require('../model/userSchema');
@@ -107,7 +108,7 @@ router.get('/myBlogs',jwtAuthMiddleware,async (req,res)=>{
         res.render('myBlogs',{
             blogs,
             name:req.user.name.split(' ')[0],
-            profileImageUrl:req.user.profileImageUrl,
+            profileImageUrlf:req.user.profileImageUrl,
         });
     }
     catch(err)
@@ -134,30 +135,23 @@ router.get('/myProfile',jwtAuthMiddleware,async (req,res)=>{
   
 })
 
-router.get('/resetPassword',jwtTokenChecker,async (req,res)=>{
+router.get('/resetPassword',async (req,res)=>{
+    const {token,email}=req.query;
     try{
-        //user didnt login 
-        if(!req.user) 
-        {
-            return res.render('resetPass');
-        } 
-      
-        //user have token
-        const user=await USER.findById(req.user.id);
-        if(user.password===req.query.key)
-         return res.render('resetPass');
-        
-        //user have token but trying to pass the otp section and directly jumping to reset password
-        res.redirect('/verify?very chalaak bro very chaaalak');
+        if(!token || !email)
+            return res.redirect('/verify?state=change');
 
+        const resetEntry=await RESET_TOKEN.findOne({email,token});
+        if(!resetEntry)
+            return res.redirect('/verify?state=change');
+
+        res.render('resetPass',{token,email});
     }
     catch(err)
     {
          console.log(err);
          res.redirect('/?internal server error');
     }
-   
-
 })
 
 module.exports=router;

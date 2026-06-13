@@ -59,9 +59,12 @@
             <h1 id="formHeading">Reset Password</h1>
             <form id="form" method="post" action="/user/resetPassword">
 
+             <input type="hidden" name="token" value="<%= token %>">
+             <input type="hidden" name="email" value="<%= email %>">
+
              <div id="verify" class="input-field">
-                <label for="email">Enter Your Email</label>
-             <input type="email" name="email" id="email">
+                <label for="email">Email</label>
+                <input type="email" id="email" value="<%= email %>" readonly>
               </div>
 
              <div  class="input-field">
@@ -79,14 +82,6 @@
         const menuBar = document.getElementById('menuBar');
         const menu = document.getElementById('menu');
 
-        form.addEventListener('submit',function(){
-            if (event.target.id === 'form')
-            event.preventDefault();
-
-            document.getElementById('email').value=localStorage.getItem('email');
-
-            form.submit();
-        })
 
         
         

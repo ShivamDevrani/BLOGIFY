@@ -53,3 +53,12 @@ CLOUDINARY_API_SECRET=your_cloudinary_secret
 
 # Start the server
 npm start
+
+
+```
+
+---
+
+## 🔐 Auth Flow
+
+![Auth Flow Diagram](public/images/image.png)

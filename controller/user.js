@@ -2,7 +2,9 @@ const {generateToken,jwtAuthMiddleware}=require('../middleware/jwtAuthMiddleware
 
 const USER=require('../model/userSchema');
 const OTP=require('../model/otpSchema');
+const RESET_TOKEN=require('../model/resetTokenSchema');
 
+const crypto=require('crypto');
 const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator');
 
@@ -106,8 +108,8 @@ const loginHandler=async (req,res)=>{
        const user=await USER.findOne({email});
        if(!user) return res.redirect('/signup?user not found');
        
-       if(user.isVerified==='false')
-        res.redirect('/verfiy?state=newbie');
+       if(!user.isVerified)
+        return res.redirect('/verify?state=newbie');
 
        if(!await user.comparePassword(password)) {
           return res.redirect('/signup?Wrong Password');
@@ -166,9 +168,13 @@ const otpChecker=async (req,res)=>{
         await OTP.deleteOne({ email, otp });
         
         if(state==='newbie')
-        return  res.redirect('/signup?signup Sucessfull');
-        
-        res.redirect(`/resetPassword?key=${user.password}`);
+        return  res.redirect('/signup?signup Sucessfull'); 
+
+        const resetToken=crypto.randomBytes(32).toString('hex');
+        await RESET_TOKEN.deleteMany({email});
+        await RESET_TOKEN.create({email,token:resetToken});
+
+        res.redirect(`/resetPassword?token=${resetToken}&email=${encodeURIComponent(email)}`);
     }
     catch(err){
         console.log(err);

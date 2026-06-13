@@ -19,6 +19,8 @@ const nodemailer = require('nodemailer');
 const otpGenerator = require('otp-generator');
 
 
+const RESET_TOKEN=require('../model/resetTokenSchema');
+
 const {signupHandler,loginHandler,otpChecker,verifyHandler}=require('../controller/user');
 //user signup
 
@@ -33,22 +35,25 @@ router.post('/login',loginHandler);
 
 router.post('/verify',verifyHandler);
 
-router.post('/resetPassword',jwtAuthMiddleware,async (req,res)=>{
-     const {email,password}=req.body;
+router.post('/resetPassword',async (req,res)=>{
+     const {email,password,token}=req.body;
      try{
-          const user=await USER.findOne({email});
-          if(!user) res.redirect('/signup?user do not exists');
-          
-          user.password=password;
+          const resetEntry=await RESET_TOKEN.findOne({email,token});
+          if(!resetEntry)
+               return res.redirect('/verify?state=change');
 
+          const user=await USER.findOne({email});
+          if(!user) return res.redirect('/signup?user do not exists');
+
+          await RESET_TOKEN.deleteOne({email,token});
+
+          user.password=password;
           await user.save();
 
           console.log('password changed succesfully');
 
           res.clearCookie('token');
-
           res.redirect('/signup?password changed successfully');
-          
 
      }catch(err)
      {
